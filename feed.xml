@@ -11,177 +11,193 @@
   </author>
   <entry>
     <title>Setup your rails development environment with RDA</title>
-    <link rel="alternate" href="/blog/2012/02/02/setup-your-rails-dev-env-with-rda.html"/>
-    <id>/blog/2012/02/02/setup-your-rails-dev-env-with-rda.html</id>
+    <link rel="alternate" href="/blog/2012/02/02/setup-your-rails-dev-env-with-rda/"/>
+    <id>/blog/2012/02/02/setup-your-rails-dev-env-with-rda/</id>
     <published>2012-02-02T00:00:00Z</published>
     <updated>2012-02-02T00:00:00Z</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <summary type="html">&lt;h3 id='intro'&gt;Intro&lt;/h3&gt;
-
-&lt;p&gt;I created a project &lt;a href='https://github.com/towerhe/rda'&gt;rda&lt;/a&gt; to help us setup our rails dev env more quickly. It is in the early dev stage. By now it only provides two major features:&lt;/p&gt;
+    <summary type="html">&lt;h3 id='toc_intro'&gt;Intro&lt;/h3&gt;
+&lt;p&gt;I created a project &lt;a href="https://github.com/towerhe/rda"&gt;rda&lt;/a&gt; to help us setup our rails dev env more quickly.
+It is in the early dev stage. By now it only provides two major
+features:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Create a .rvmrc file for your rails app&lt;/li&gt;
-
 &lt;li&gt;Setup Nginx + Passenger for your rails app&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;</summary>
-    <content type="html">&lt;h3 id='intro'&gt;Intro&lt;/h3&gt;
-
-&lt;p&gt;I created a project &lt;a href='https://github.com/towerhe/rda'&gt;rda&lt;/a&gt; to help us setup our rails dev env more quickly. It is in the early dev stage. By now it only provides two major features:&lt;/p&gt;
+    <content type="html">&lt;h3 id='toc_intro'&gt;Intro&lt;/h3&gt;
+&lt;p&gt;I created a project &lt;a href="https://github.com/towerhe/rda"&gt;rda&lt;/a&gt; to help us setup our rails dev env more quickly.
+It is in the early dev stage. By now it only provides two major
+features:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Create a .rvmrc file for your rails app&lt;/li&gt;
-
 &lt;li&gt;Setup Nginx + Passenger for your rails app&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;/p&gt;
+&lt;h3 id='toc_requirements'&gt;Requirements&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;RVM&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h3 id='requirements'&gt;Requirements&lt;/h3&gt;
+&lt;p&gt;RVM is a command-line tool which allows you to easily install,
+manage, and work with multiple ruby environments from interpreters to
+sets of gems.&lt;/p&gt;
 
-&lt;p&gt;* &lt;em&gt;RVM&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;You should install RVM first. You can follow the installation tips
+on &lt;a href="https://rvm.beginrescueend.com/rvm/install/#explained"&gt;https://rvm.beginrescueend.com/rvm/install/#explained&lt;/a&gt; or just execute the following instructions:&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  bash -s stable &amp;lt; &amp;lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Nginx + Passenger&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;pre&gt;&lt;code&gt;RVM is a command-line tool which allows you to easily install,&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nginx is an HTTP and reverse proxy server, as well as a
+mail proxy server, written by Igor Sysoev. For a long time, it has been
+running on many heavily loaded Russian sites including Yandex, Mail.Ru,
+VKontakte, and Rambler. According to Netcraft nginx served or proxied 8.49% busiest sites in January 2012. &lt;/p&gt;
 
-&lt;p&gt;manage, and work with multiple ruby environments from interpreters to sets of gems.&lt;/p&gt;
+&lt;p&gt;Phusion Passenger™ — a.k.a. mod&lt;em&gt;rails or mod&lt;/em&gt;rack — makes deployment
+of Ruby web applications, such as those built on the revolutionary Ruby
+on Rails web framework, a breeze. It follows the usual Ruby on Rails
+conventions, such as “Don’t-Repeat-Yourself”.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;You should install RVM first. You can follow the installation tips&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As simple as posible, you can follow the installation instructions
+on &lt;a href="http://www.modrails.com/install.html"&gt;http://www.modrails.com/install.html&lt;/a&gt; or:&lt;/p&gt;
 
-&lt;p&gt;on &lt;a href='https://rvm.beginrescueend.com/rvm/install/#explained'&gt;https://rvm.beginrescueend.com/rvm/install/#explained&lt;/a&gt; or just execute the following instructions:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note:&lt;/em&gt; In the process of installing nginx, you will get an error when downloading
+pcre. For passenger 3.0.11, it tries to download pcre 8.12 which is
+removed when installing nginx. To fix this error, you should modify
+phusion_passenger.rb of the installed passenger gem directory and set the version of pcre to 8.21.&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;:::bash
-    bash -s stable &amp;lt; &amp;lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
- &lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;* &lt;em&gt;Nginx + Passenger&lt;/em&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Nginx is an HTTP and reverse proxy server, as well as a&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;mail proxy server, written by Igor Sysoev. For a long time, it has been running on many heavily loaded Russian sites including Yandex, Mail.Ru, VKontakte, and Rambler. According to Netcraft nginx served or proxied 8.49% busiest sites in January 2012.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Phusion Passenger™ — a.k.a. mod_rails or mod_rack — makes deployment&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;of Ruby web applications, such as those built on the revolutionary Ruby on Rails web framework, a breeze. It follows the usual Ruby on Rails conventions, such as “Don’t-Repeat-Yourself”.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;As simple as posible, you can follow the installation instructions&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;on &lt;a href='http://www.modrails.com/install.html'&gt;http://www.modrails.com/install.html&lt;/a&gt; or:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;*Note:* In the process of installing nginx, you will get an error when downloading&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;pcre. For passenger 3.0.11, it tries to download pcre 8.12 which is removed when installing nginx. To fix this error, you should modify phusion_passenger.rb of the installed passenger gem directory and set the version of pcre to 8.21.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-    # 1. Install passenger
-    gem install passenger
-    # 2. Install nginx
-    passenger-install-nginx-module
- &lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='install_rda'&gt;Install RDA&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  gem install rda
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;p&gt;1) Install passenger&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  gem install passenger&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;2) Install nginx&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  passenger-install-nginx-module&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_install-rda'&gt;Install RDA&lt;/h3&gt;&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  gem install rda&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;Or simply add rda to the Gemfile&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::ruby
-  gem &amp;#39;rda&amp;#39;
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='setup_rvm'&gt;Setup RVM&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  rake rda:rvm:setup
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;First of all, this task will check whether the RVM is installed. If RVM is installed, it will create a .rvmrc for the application with the content which looks like:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  if [[ -s &amp;quot;/path/to/rvm/environments/ruby-1.9.3-p0@app_name&amp;quot; ]]; then
+&lt;div class="highlight ruby"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  gem &lt;span class="string"&gt;&lt;span class="delimiter"&gt;'&lt;/span&gt;&lt;span class="content"&gt;rda&lt;/span&gt;&lt;span class="delimiter"&gt;'&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_setup-rvm'&gt;Setup RVM&lt;/h3&gt;&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  rake rda:rvm:setup&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;First of all, this task will check whether the RVM is installed. If RVM
+is installed, it will create a .rvmrc for the application with the
+content which looks like:&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+3
+4
+5
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  if [[ -s &amp;quot;/path/to/rvm/environments/ruby-1.9.3-p0@app_name&amp;quot; ]]; then
     . &amp;quot;/path/to/rvm/environments/ruby-1.9.3-p0@app_name&amp;quot;
   else
     rvm use ruby-1.9.3-p0@app_name --create
-  fi
-&lt;/code&gt;&lt;/p&gt;
-
+  fi&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;After RVM setup, you need to trust the rvmrc by:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  rvm rvmrc trust
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Or you can set rvm_trust_rvmrcs_flag=1 in ~/.rvmrc or /etc/rvmrc.&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  rvm rvmrc trust&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Or you can set &lt;code&gt;rvm_trust_rvmrcs_flag=1&lt;/code&gt; in ~/.rvmrc or /etc/rvmrc.&lt;/p&gt;
 
 &lt;p&gt;If RVM is not installed this task will do nothing but exit.&lt;/p&gt;
-
-&lt;h3 id='setup_nginx__passenger'&gt;Setup Nginx + Passenger&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  rake rda:nginx:setup
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;First this task will try to find the config files of Nginx which you have installed from the following paths:&lt;/p&gt;
+&lt;h3 id='toc_setup-nginx-passenger'&gt;Setup Nginx + Passenger&lt;/h3&gt;&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  rake rda:nginx:setup&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;First this task will try to find the config files of Nginx which you
+have installed from the following paths:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;/etc/nginx&lt;/li&gt;
-
 &lt;li&gt;/usr/local/nginx/conf&lt;/li&gt;
-
 &lt;li&gt;/opt/nginx/conf&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;You can change the default searching paths by:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::ruby
-  Rda.configure { nginx_conf_paths [&amp;#39;/path/to/nginx/conf&amp;#39;] }
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Please make sure that you have the write permission of the directory you choosed, or you can run:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  sudo rake rda:nginx:setup
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;If there are more than one paths found, it will give you a choice to decide which one will be used. After choosing a proper path, it will try to create two directories sites-available and sites-enabled to save the configs of rails applications.&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  Rda.configure { nginx_conf_paths ['/path/to/nginx/conf'] }&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Please make sure that you have the write permission of the directory you
+choosed, or you can run:&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  sudo rake rda:nginx:setup&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;If there are more than one paths found, it will give you a choice to
+decide which one will be used. After choosing a proper path, it will try
+to create two directories sites-available and sites-enabled to save the
+configs of rails applications.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;sites-available saves the configs of the rails applications.&lt;/li&gt;
-
 &lt;li&gt;sites-enabled saves the link to the rails applications.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Next it will set Nginx to include the configs under sites-enabled. It means that only the applications under sites-enabled will be loaded. And than it will create a config file for your application under sites-available and create a link to the config file under sites-enabled. After all, it will create a local hostname for your application in /etc/hosts.&lt;/p&gt;
+&lt;p&gt;Next it will set Nginx to include the configs under sites-enabled. It
+means that only the applications under sites-enabled will be loaded. And
+than it will create a config file for your application under
+sites-available and create a link to the config file under
+sites-enabled. After all, it will create a local hostname for your
+application in /etc/hosts.&lt;/p&gt;
 
-&lt;p&gt;Now You need to start Nginx:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  /path/to/nginx/sbin/nginx
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;and then visit http://your_app_name.local.&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Example Article</title>
-    <link rel="alternate" href="/blog/2012/01/01/example-article.html"/>
-    <id>/blog/2012/01/01/example-article.html</id>
-    <published>2012-01-01T00:00:00+08:00</published>
-    <updated>2012-01-01T00:00:00+08:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <summary type="html">&lt;p&gt;This is an example article. You probably want to delete it and write your own articles!&lt;/p&gt;</summary>
-    <content type="html">&lt;p&gt;This is an example article. You probably want to delete it and write your own articles!&lt;/p&gt;</content>
+&lt;p&gt;Now You need to start Nginx: &lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  /path/to/nginx/sbin/nginx&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;and then visit http://your&lt;em&gt;app&lt;/em&gt;name.local.&lt;/p&gt;
+</content>
   </entry>
   <entry>
     <title>测试驱动开发Sencha Touch环境搭建</title>
-    <link rel="alternate" href="/blog/2011/08/06/tdd-sencha-touch-dev.html"/>
-    <id>/blog/2011/08/06/tdd-sencha-touch-dev.html</id>
+    <link rel="alternate" href="/blog/2011/08/06/tdd-sencha-touch-dev/"/>
+    <id>/blog/2011/08/06/tdd-sencha-touch-dev/</id>
     <published>2011-08-06T00:00:00Z</published>
     <updated>2011-08-06T00:00:00Z</updated>
     <author>
@@ -190,40 +206,41 @@
     <summary type="html">&lt;p&gt;&lt;em&gt;前篇：&lt;/em&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href='http://hetao.im/2011/04/24/setup-sencha-touch-dev-env'&gt;搭建SENCHA TOUCH开发环境&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href='http://hetao.im/2011/04/26/setup-sencha-touch-dev-env-css'&gt;搭建SENCHA TOUCH开发环境 – CSS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://hetao.im/2011/04/24/setup-sencha-touch-dev-env"&gt;搭建SENCHA TOUCH开发环境&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://hetao.im/2011/04/26/setup-sencha-touch-dev-env-css"&gt;搭建SENCHA TOUCH开发环境 – CSS&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;在前面两篇文章中介绍了如何手动的构建一个Sencha Touch开发环境，本文将着重介绍如何使用工具搭建一个测试驱动的Sencha Touch项目。&lt;/p&gt;
+&lt;p&gt;在前面两篇文章中介绍了如何手动的构建一个Sencha
+Touch开发环境，本文将着重介绍如何使用工具搭建一个测试驱动的Sencha
+Touch项目。&lt;/p&gt;
 
 &lt;p&gt;</summary>
     <content type="html">&lt;p&gt;&lt;em&gt;前篇：&lt;/em&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href='http://hetao.im/2011/04/24/setup-sencha-touch-dev-env'&gt;搭建SENCHA TOUCH开发环境&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href='http://hetao.im/2011/04/26/setup-sencha-touch-dev-env-css'&gt;搭建SENCHA TOUCH开发环境 – CSS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://hetao.im/2011/04/24/setup-sencha-touch-dev-env"&gt;搭建SENCHA TOUCH开发环境&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://hetao.im/2011/04/26/setup-sencha-touch-dev-env-css"&gt;搭建SENCHA TOUCH开发环境 – CSS&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;在前面两篇文章中介绍了如何手动的构建一个Sencha Touch开发环境，本文将着重介绍如何使用工具搭建一个测试驱动的Sencha Touch项目。&lt;/p&gt;
+&lt;p&gt;在前面两篇文章中介绍了如何手动的构建一个Sencha
+Touch开发环境，本文将着重介绍如何使用工具搭建一个测试驱动的Sencha
+Touch项目。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
-
-&lt;h3 id='sencha_touch'&gt;Sencha Touch辅助工具&lt;/h3&gt;
-
-&lt;p&gt;在Sencha Touch中有一个鲜为人知的工具Sencha Command，位于sencha-touch-1.1.0/jsbuilder目录中，名为sencha.sh。相关资料表明该工具是用来自动化生成Sencha Touch项目目录结构，并包含一个代码生成器。使用了一下发现其明显处于试验阶段，因为代码中存在非常多的错误。通过sencha.sh生成的代码无法正常运行。不过不用担心，我们可以使用后面介绍的&lt;a href='https://github.com/towerhe/sencha-command'&gt;sencha-command&lt;/a&gt;来完成这些操作。下面简单的介绍sencha.sh的几个用法：&lt;/p&gt;
+&lt;h3 id='toc_sencha-touch'&gt;Sencha Touch辅助工具&lt;/h3&gt;
+&lt;p&gt;在Sencha Touch中有一个鲜为人知的工具Sencha
+Command，位于sencha-touch-1.1.0/jsbuilder目录中，名为sencha.sh。相关资料表明该工具是用来自动化生成Sencha
+Touch项目目录结构，并包含一个代码生成器。使用了一下发现其明显处于试验阶段，因为代码中存在非常多的错误。通过sencha.sh生成的代码无法正常运行。不过不用担心，我们可以使用后面介绍的&lt;a href="https://github.com/towerhe/sencha-command"&gt;sencha-command&lt;/a&gt;来完成这些操作。下面简单的介绍sencha.sh的几个用法：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;生成Sencha Touch项目&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  ./sencha.sh generate app YourSenchaTouchApp /path/to/save/YourSenchaTouchApp
-&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;生成Sencha Touch项目&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;    ./sencha.sh generate app YourSenchaTouchApp /path/to/save/YourSenchaTouchApp&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;参数解释：&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;generate&lt;/em&gt; - 指定使用generator模块，该模块负责代码的自动生成；&lt;/p&gt;
@@ -235,15 +252,25 @@
 &lt;p&gt;&lt;em&gt;/path/to/save/YourSenchaTouchApp&lt;/em&gt; - 指定待生成的项目将被保存在何处。&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;生成Sencha Touch Model&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;本命令需要在生成的Sencha Touch目录中执行，该命令会在Sencha Touch项目中生成三个文件并修改两个文件。但是很遗憾，目前版本不经过修改将无法正常执行。&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;生成Sencha Touch Model&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;code&gt;
-  ├── app
+&lt;p&gt;本命令需要在生成的Sencha Touch目录中执行，该命令会在Sencha
+Touch项目中生成三个文件并修改两个文件。但是很遗憾，目前版本不经过修改将无法正常执行。&lt;/p&gt;
+&lt;div class="highlight "&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+&lt;strong&gt;10&lt;/strong&gt;
+11
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  ├── app
   │   ├── models
   │   │   └── User.js      - 新生成的User模型
   ├── index.html           - 引入app/models/User.js
@@ -253,25 +280,38 @@
       └── unit
           ├── index.html   - 引入models/User.js
           └─── models
-               └── User.js - 新生成的User模型的spec
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  ./sencha.sh generate model User name:string password:string age:int
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;参数解释：&lt;/em&gt; &lt;em&gt;generate&lt;/em&gt; - 指定使用generator模块，该模块负责代码的自动生成； &lt;em&gt;model&lt;/em&gt; - 指定将要生成的是Sencha Touch模型 &lt;em&gt;User&lt;/em&gt; - 指定待生成的模型的名称 &lt;em&gt;name:string password:string age:int&lt;/em&gt; - 指定待生成的属性定义，属性定义由两部分组成，&amp;lt;属性名&amp;gt;:&amp;lt;类型&amp;gt;。&lt;/p&gt;
+               └── User.js - 新生成的User模型的spec&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  ./sencha.sh generate model User name:string password:string age:int&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;参数解释：&lt;/em&gt;
+  &lt;em&gt;generate&lt;/em&gt; - 指定使用generator模块，该模块负责代码的自动生成；
+  &lt;em&gt;model&lt;/em&gt; - 指定将要生成的是Sencha Touch模型
+  &lt;em&gt;User&lt;/em&gt; - 指定待生成的模型的名称
+  &lt;em&gt;name:string password:string age:int&lt;/em&gt; - 指定待生成的属性定义，属性定义由两部分组成，&amp;lt;属性名&amp;gt;:&amp;lt;类型&amp;gt;。&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;生成Sencha Touch Controller&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;本命令需要在生成的Sencha Touch目录中执行，该命令会在Sencha Touch项目中生成两个文件并修改两个文件。同样很遗憾，目前版本不经过修改将无法正常执行。&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;生成Sencha Touch Controller&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;code&gt;
-  ├── app
+&lt;p&gt;本命令需要在生成的Sencha Touch目录中执行，该命令会在Sencha
+Touch项目中生成两个文件并修改两个文件。同样很遗憾，目前版本不经过修改将无法正常执行。&lt;/p&gt;
+&lt;div class="highlight "&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  ├── app
   │   ├── controllers
   │   │   └── users.js            - 新生成的users控制器
   ├── index.html                  - 引入app/controllers/users.js
@@ -279,134 +319,187 @@
       └── unit
           ├── index.html          - 引入controllers/users.js
           └── controllers
-               └── controllers.js - 新生成的users控制器的spec
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  ./sencha.sh generate controller users index new create show update destroy
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;参数解释：&lt;/em&gt; &lt;em&gt;generate&lt;/em&gt; - 指定使用generator模块，该模块负责代码的自动生成； &lt;em&gt;controller&lt;/em&gt; - 指定将要生成的是Sencha Touch控制器 &lt;em&gt;users&lt;/em&gt; - 指定待生成的控制器的名称 &lt;em&gt;index new create show update destroy&lt;/em&gt; - 指定待生成的控制器方法。&lt;/p&gt;
-
-&lt;h3 id='sencha_command'&gt;Sencha Command&lt;/h3&gt;
-
-&lt;p&gt;Sencha Command - 是&lt;a href='https://github.com/muc'&gt;muc&lt;/a&gt;&amp;#8220;修正后发布的工具，该工具修正了Sencha Touch自带的工具存在的大部分问题。但是单元测试，以及提示信息依然存在一些小的问题。我在github上fork了这个项目&lt;a href='https://github.com/towerhe/sencha-command'&gt;https://github.com/towerhe/sencha-command&lt;/a&gt;，并修正了一些目前发现的问题：&lt;/p&gt;
+               └── controllers.js - 新生成的users控制器的spec&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  ./sencha.sh generate controller users index new create show update destroy&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;参数解释：&lt;/em&gt;
+&lt;em&gt;generate&lt;/em&gt; - 指定使用generator模块，该模块负责代码的自动生成；
+&lt;em&gt;controller&lt;/em&gt; - 指定将要生成的是Sencha Touch控制器
+&lt;em&gt;users&lt;/em&gt; - 指定待生成的控制器的名称
+&lt;em&gt;index new create show update destroy&lt;/em&gt; - 指定待生成的控制器方法。&lt;/p&gt;
+&lt;h3 id='toc_sencha-command'&gt;Sencha Command&lt;/h3&gt;
+&lt;p&gt;Sencha Command - 是&lt;a href="https://github.com/muc"&gt;muc&lt;/a&gt;&amp;quot;修正后发布的工具，该工具修正了Sencha Touch自带的工具存在的大部分问题。但是单元测试，以及提示信息依然存在一些小的问题。我在github上fork了这个项目&lt;a href="https://github.com/towerhe/sencha-command"&gt;https://github.com/towerhe/sencha-command&lt;/a&gt;，并修正了一些目前发现的问题：&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;test/unit/index.html中引入的sencha-touch-debug.js目录不正确&lt;/li&gt;
-
 &lt;li&gt;test/unit/index.html中默认不引入app.js&lt;/li&gt;
-
 &lt;li&gt;调用generator时提示信息错误&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Sencha Command与Sencha Touch自带的工具完成相同的工作，但有一些细小的改动：&lt;/p&gt;
-
-&lt;p&gt;* 目录结构不同&lt;/p&gt;
+&lt;p&gt;Sencha Command与Sencha
+Touch自带的工具完成相同的工作，但有一些细小的改动：&lt;/p&gt;
 
 &lt;ul&gt;
+&lt;li&gt;目录结构不同&lt;/li&gt;
 &lt;li&gt;原脚本sencha.sh改名为sencha&lt;/li&gt;
-
 &lt;li&gt;生成的项目中包含了Sencha Touch的资源文件&lt;/li&gt;
-
-&lt;li&gt;修复了sencha touch资源引用的错误 * 修复了无法使用模型和控制器生成器的错误&lt;/li&gt;
+&lt;li&gt;修复了sencha touch资源引用的错误&lt;/li&gt;
+&lt;li&gt;修复了无法使用模型和控制器生成器的错误&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;em&gt;如何使用Sencha Command&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;
-  # 1. 从github中签出sencha-command
+&lt;div class="highlight "&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+3
+4
+5
+6
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  # 1. 从github中签出sencha-command
   #    git clone https://github.com/towerhe/sencha-command.git
   # 2. 参照前面介绍的Sencha自带工具的用法生成项目、模型、控制器
   # 3. 将项目部署到Web服务器
   # 4. 浏览http://{your_server}:{port}/{any_prefix}/index.html来访问项目
-  # 5. 浏览http://{your_server}:{port}/{any_prefix}/test/unit/index.html来访问项目的单元测试
-&lt;/code&gt;&lt;/p&gt;</content>
+  # 5. 浏览http://{your_server}:{port}/{any_prefix}/test/unit/index.html来访问项目的单元测试&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;</content>
   </entry>
   <entry>
     <title>使用tklpatch自定义Ubuntu系统安装盘</title>
-    <link rel="alternate" href="/blog/2011/07/07/customize-your-ubuntu-cd-by-tklpatch.html"/>
-    <id>/blog/2011/07/07/customize-your-ubuntu-cd-by-tklpatch.html</id>
+    <link rel="alternate" href="/blog/2011/07/07/customize-your-ubuntu-cd-by-tklpatch/"/>
+    <id>/blog/2011/07/07/customize-your-ubuntu-cd-by-tklpatch/</id>
     <published>2011-07-07T00:00:00Z</published>
     <updated>2011-07-07T00:00:00Z</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <summary type="html">&lt;h3 id='id1'&gt;实验环境&lt;/h3&gt;
-
+    <summary type="html">&lt;h3 id='toc_'&gt;实验环境&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;硬件配置&lt;/em&gt;&lt;/p&gt;
+
 &lt;table&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;主机型号：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Dell OptiPlex 380&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;主机型号：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Dell OptiPlex 380&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;CPU：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Intel(R) Core(TM)2 Duo CPU  E7500  @ 2.93GHz&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;CPU：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Intel(R) Core(TM)2 Duo CPU  E7500  @ 2.93GHz&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;内存：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;DDR3 SDRAM，1066 Mhz&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;内存：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;DDR3 SDRAM，1066 Mhz&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;硬盘：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;500G 7200 RPM SATA&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;硬盘：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;500G 7200 RPM SATA&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
+
 &lt;p&gt;&lt;em&gt;软件环境&lt;/em&gt;&lt;/p&gt;
+
 &lt;table&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;操作系统：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Ubuntu Desktop 10.04.2 (Lucid Lynx) x86_32&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;操作系统：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Ubuntu Desktop 10.04.2 (Lucid Lynx) x86_32&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
+
 &lt;p&gt;</summary>
-    <content type="html">&lt;h3 id='id18'&gt;实验环境&lt;/h3&gt;
-
+    <content type="html">&lt;h3 id='toc_'&gt;实验环境&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;硬件配置&lt;/em&gt;&lt;/p&gt;
+
 &lt;table&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;主机型号：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Dell OptiPlex 380&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;主机型号：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Dell OptiPlex 380&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;CPU：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Intel(R) Core(TM)2 Duo CPU  E7500  @ 2.93GHz&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;CPU：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Intel(R) Core(TM)2 Duo CPU  E7500  @ 2.93GHz&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;内存：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;DDR3 SDRAM，1066 Mhz&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;内存：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;DDR3 SDRAM，1066 Mhz&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;硬盘：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;500G 7200 RPM SATA&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;硬盘：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;500G 7200 RPM SATA&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
+
 &lt;p&gt;&lt;em&gt;软件环境&lt;/em&gt;&lt;/p&gt;
+
 &lt;table&gt;
   &lt;tr&gt;
-    &lt;td style='text-align:right'&gt;&lt;strong&gt;操作系统：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Ubuntu Desktop 10.04.2 (Lucid Lynx) x86_32&lt;/td&gt;
+    &lt;td style="text-align:right"&gt;&lt;strong&gt;操作系统：&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Ubuntu Desktop 10.04.2 (Lucid Lynx) x86_32&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
+
 &lt;p&gt;&lt;/p&gt;
-
-&lt;h3 id='tklpatch'&gt;安装tklpatch&lt;/h3&gt;
-
+&lt;h3 id='toc_tklpatch'&gt;安装tklpatch&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;将Turnkey仓库添加到源列表中&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-deb http://archive.turnkeylinux.org/ubuntu lucid main universe
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;deb http://archive.turnkeylinux.org/ubuntu lucid main universe&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;安装turnkey-keyring&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-wget http://code.turnkeylinux.org/turnkey-keyring/turnkey-release-keyring.gpg
-sudo apt-key add turnkey-release-keyring.gpg
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;wget http://code.turnkeylinux.org/turnkey-keyring/turnkey-release-keyring.gpg
+sudo apt-key add turnkey-release-keyring.gpg&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;安装tklpatch&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-sudo apt-get update
-sudo apt-get install tklpatch
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='id19'&gt;目录结构&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;
-tklpatch-rails                       # http://github.com/towerhe/tklpatch-rails
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo apt-get update
+sudo apt-get install tklpatch&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_'&gt;目录结构&lt;/h3&gt;&lt;div class="highlight "&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+&lt;strong&gt;10&lt;/strong&gt;
+11
+12
+13
+14
+15
+16
+17
+18
+19
+&lt;strong&gt;20&lt;/strong&gt;
+21
+22
+23
+24
+25
+26
+27
+28
+29
+&lt;strong&gt;30&lt;/strong&gt;
+31
+32
+33
+34
+35
+36
+37
+38
+39
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;tklpatch-rails                       # http://github.com/towerhe/tklpatch-rails
 .
 ├── conf                             # 应用patch时将自动执行的脚本文件
 │   ├── post-debs                    # 安装完deb包后执行的脚本文件
@@ -444,200 +537,206 @@ tklpatch-rails                       # http://github.com/towerhe/tklpatch-rails
 │       ├── README.textile
 │       └── VERSION
 ├── README.textile
-└── VERSION
-&lt;/code&gt;&lt;/p&gt;
-
+└── VERSION&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
-&lt;li&gt;该目录结构取自&lt;a href='http://github.com/towerhe/tklpatch-rails'&gt;tklpatch-rails&lt;/a&gt;项目。&lt;/li&gt;
-
+&lt;li&gt;该目录结构取自&lt;a href="http://github.com/towerhe/tklpatch-rails"&gt;tklpatch-rails&lt;/a&gt;项目。&lt;/li&gt;
 &lt;li&gt;tklpatch可以自我嵌套，而且可以多层次嵌套。&lt;/li&gt;
-
 &lt;li&gt;如果不需要细分脚本执行过程，可以使用conf脚本文件替代，该文件将在应用了overlay之用执行。&lt;/li&gt;
-
 &lt;li&gt;应用patch时的执行顺序： patches =&amp;gt; pre-debs =&amp;gt; debs =&amp;gt; post-debs =&amp;gt; pre-overlay =&amp;gt; overlay =&amp;gt; post-overlay&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;h3 id='tklpatch'&gt;应用tklpatch&lt;/h3&gt;
-
-&lt;p&gt;首先需要从&lt;a href='http://www.turnkeylinux.com'&gt;Turnkey Linux&lt;/a&gt;下载需要应用patch的基础iso文件。如：&lt;a href='http://downloads.sourceforge.net/project/turnkeylinux/turnkey-core/11.1-lucid-x86/turnkey-core-11.1-lucid-x86.iso'&gt;turnkey-core-11.1-lucid-x86.iso&lt;/a&gt;。 然后执行tklpatch命令应用patch。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  sudo tklpatch turnkey-core-11.1-lucid-x86.iso path/to/your/tklpatch
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='id20'&gt;其他常用命令&lt;/h3&gt;
-
+&lt;h3 id='toc_tklpatch'&gt;应用tklpatch&lt;/h3&gt;
+&lt;p&gt;首先需要从&lt;a href="http://www.turnkeylinux.com"&gt;Turnkey Linux&lt;/a&gt;下载需要应用patch的基础iso文件。如：&lt;a href="http://downloads.sourceforge.net/project/turnkeylinux/turnkey-core/11.1-lucid-x86/turnkey-core-11.1-lucid-x86.iso"&gt;turnkey-core-11.1-lucid-x86.iso&lt;/a&gt;。
+然后执行tklpatch命令应用patch。&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  sudo tklpatch turnkey-core-11.1-lucid-x86.iso path/to/your/tklpatch&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_'&gt;其他常用命令&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch： 将tklpatch应用到基础iso文件&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch path/to/turnkey-core.iso path/to/your/tklpatch
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch path/to/turnkey-core.iso path/to/your/tklpatch&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-apply： 将tklpatch应用到的解压的root文件系统&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-apply rootfs-dir patch-dir|patch.tar.gz
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-apply rootfs-dir patch-dir|patch.tar.gz&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-apply-conf： 在解压的root文件系统中，执行conf脚本&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-apply-conf rootfs-dir conf
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-apply-conf rootfs-dir conf&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-apply-debs： 在解压的root文件系统中，安装debs&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-apply-debs rootfs-dir debs-dir
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-apply-debs rootfs-dir debs-dir&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-apply-overlay： 复制overlay下的文件和目录到解压的root文件系统&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-apply-overlay rootfs-dir overlay-dir
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-apply-overlay rootfs-dir overlay-dir&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-bundle： 将创建的tklpatch项目打包&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-bundle patch-dir
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-bundle patch-dir&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-chroot： 将当前root文件系统切换到解压的root文件系统&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-chroot root-dir [ command ...]
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-chroot root-dir [ command ...]&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-example： 创建tklpatch项目基础目录结构&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-example [options] new-patch-dir
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-example [options] new-patch-dir&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-extract-iso： 解压基础iso文件&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-extract-iso isofile
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-extract-iso isofile&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-geniso： 根据准备好的cdroot创建iso文件&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-geniso cdroot-dir [newimage.iso]
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-geniso cdroot-dir [newimage.iso]&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;tklpatch-prepare-cdroot： 根据解压的root文件系统创建cdroot&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-  tklpatch-prepare-cdroot rootfs-dir [cdroot-dir]
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='id21'&gt;参考资料&lt;/h3&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  tklpatch-prepare-cdroot rootfs-dir [cdroot-dir]&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_'&gt;参考资料&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href='http://www.turnkeylinux.org/docs/tklpatch'&gt;TKLPatch - a simple appliance customization mechanism&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href='http://github.com/towerhe/tklpatch-rails'&gt;tklpatch-rails&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content>
+&lt;li&gt;&lt;a href="http://www.turnkeylinux.org/docs/tklpatch"&gt;TKLPatch - a simple appliance customization mechanism&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://github.com/towerhe/tklpatch-rails"&gt;tklpatch-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
   </entry>
   <entry>
     <title>使用ConVirt2管理KVM虚拟机 - 单一主机篇</title>
-    <link rel="alternate" href="/blog/2011/05/06/install-convirt2-in-one-host.html"/>
-    <id>/blog/2011/05/06/install-convirt2-in-one-host.html</id>
+    <link rel="alternate" href="/blog/2011/05/06/install-convirt2-in-one-host/"/>
+    <id>/blog/2011/05/06/install-convirt2-in-one-host/</id>
     <published>2011-05-06T00:00:00Z</published>
     <updated>2011-05-06T00:00:00Z</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <summary type="html">&lt;p&gt;在&lt;a href='http://hetao.im/2011/04/04/%E4%BD%BF%E7%94%A8convirt%E7%AE%A1%E7%90%86%E5%9F%BA%E4%BA%8Ekvm%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%AE%89%E8%A3%85%E7%AF%87'&gt;使用ConVirt管理基于KVM的虚拟机&lt;/a&gt;一文中，介绍了如何使用ConVirt2来搭建KVM环境，文中采用的是管理服务器ConVirt2与KVM服务器分离安装的方式。本文将介绍如何在一台主机上安装ConVirt2 + KVM的环境。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;在&lt;a href="http://hetao.im/2011/04/04/%E4%BD%BF%E7%94%A8convirt%E7%AE%A1%E7%90%86%E5%9F%BA%E4%BA%8Ekvm%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%AE%89%E8%A3%85%E7%AF%87"&gt;使用ConVirt管理基于KVM的虚拟机&lt;/a&gt;一文中，介绍了如何使用ConVirt2来搭建KVM环境，文中采用的是管理服务器ConVirt2与KVM服务器分离安装的方式。本文将介绍如何在一台主机上安装ConVirt2
++ KVM的环境。&lt;/p&gt;
 
 &lt;p&gt;</summary>
-    <content type="html">&lt;p&gt;在&lt;a href='http://hetao.im/2011/04/04/%E4%BD%BF%E7%94%A8convirt%E7%AE%A1%E7%90%86%E5%9F%BA%E4%BA%8Ekvm%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%AE%89%E8%A3%85%E7%AF%87'&gt;使用ConVirt管理基于KVM的虚拟机&lt;/a&gt;一文中，介绍了如何使用ConVirt2来搭建KVM环境，文中采用的是管理服务器ConVirt2与KVM服务器分离安装的方式。本文将介绍如何在一台主机上安装ConVirt2 + KVM的环境。&lt;/p&gt;
+    <content type="html">&lt;p&gt;在&lt;a href="http://hetao.im/2011/04/04/%E4%BD%BF%E7%94%A8convirt%E7%AE%A1%E7%90%86%E5%9F%BA%E4%BA%8Ekvm%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%AE%89%E8%A3%85%E7%AF%87"&gt;使用ConVirt管理基于KVM的虚拟机&lt;/a&gt;一文中，介绍了如何使用ConVirt2来搭建KVM环境，文中采用的是管理服务器ConVirt2与KVM服务器分离安装的方式。本文将介绍如何在一台主机上安装ConVirt2
++ KVM的环境。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
-
-&lt;h3 id='kvm'&gt;检测KVM支持&lt;/h3&gt;
-
+&lt;h3 id='toc_kvm'&gt;检测KVM支持&lt;/h3&gt;
 &lt;p&gt;KVM目前支持Intel VT及AMD-V的原生虚拟技术。运行以下命令检测是否支持。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-kvm-ok
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='id22'&gt;主机配置&lt;/h3&gt;
-
-&lt;p&gt;&lt;em&gt;主机型号：&lt;/em&gt; Dell OptiPlex 980 &lt;em&gt;CPU：&lt;/em&gt; Intel(R) Core(TM) i5 CPU 650 @ 3.20GHz, 1197 MHz &lt;em&gt;内存：&lt;/em&gt; 8G 非ECC双通道1333 MHz DDR3 SDRAM &lt;em&gt;硬盘：&lt;/em&gt; 1T x 2 7200 RPM SATA 3.0 GB/秒 RAID 1&lt;/p&gt;
-
-&lt;h3 id='id23'&gt;操作系统&lt;/h3&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;kvm-ok&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_'&gt;主机配置&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;主机型号：&lt;/em&gt; Dell OptiPlex 980
+&lt;em&gt;CPU：&lt;/em&gt; Intel(R) Core(TM) i5 CPU 650 @ 3.20GHz, 1197 MHz
+&lt;em&gt;内存：&lt;/em&gt; 8G 非ECC双通道1333 MHz DDR3 SDRAM 
+&lt;em&gt;硬盘：&lt;/em&gt; 1T x 2 7200 RPM SATA 3.0 GB/秒 RAID 1&lt;/p&gt;
+&lt;h3 id='toc_'&gt;操作系统&lt;/h3&gt;
 &lt;p&gt;Ubuntu Server 10.04.2 (Lucid Lynx) x86_64&lt;/p&gt;
-
-&lt;h3 id='id24'&gt;配置第三方源&lt;/h3&gt;
-
-&lt;p&gt;编辑软件包源列表文件/etc/apt/sources.list，追加http://archive.canonical.com/ubuntu lucid partner，并更新软件索引：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-sudo apt-get update
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='kvmconvirt2'&gt;安装KVM、ConVirt2&lt;/h3&gt;
-
+&lt;h3 id='toc_'&gt;配置第三方源&lt;/h3&gt;
+&lt;p&gt;编辑软件包源列表文件/etc/apt/sources.list，追加http://archive.canonical.com/ubuntu
+lucid partner，并更新软件索引：&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo apt-get update&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_kvm-convirt2'&gt;安装KVM、ConVirt2&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;安装KVM&lt;/li&gt;
+&lt;li&gt;安装KVM &lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-sudo apt-get install ssh kvm socat dnsmasq uml-utilities lvm2 expect
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo apt-get install ssh kvm socat dnsmasq uml-utilities lvm2 expect&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;安装与配置ConVirt2：&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;通过安装convirture-tools来帮助你配置虚拟资源服务器，使得其可以通过ConVirt来进行方便的管理。该命令将创建一个公有的网桥，相关的脚本并将操作摘要写入/var/cache/convirt/server_info。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-sudo apt-get install convirture-tools
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo apt-get install convirture-tools&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;安装相关依赖：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-sudo convirt-tool install_dependencies
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo convirt-tool install_dependencies&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;配置网络：&lt;/p&gt;
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo convirt-tool setup&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_'&gt;配置&lt;/h3&gt;
+&lt;p&gt;运行sudo convirt-tool
+setup后，默认创建的网桥是通过dhcp服务来配置的，因此需要手动修改网络配置文件，请参考下面的配置，来配置/etc/networks/interfaces&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;:::bash
-sudo convirt-tool setup
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='id25'&gt;配置&lt;/h3&gt;
-
-&lt;p&gt;运行sudo convirt-tool setup后，默认创建的网桥是通过dhcp服务来配置的，因此需要手动修改网络配置文件，请参考下面的配置，来配置/etc/networks/interfaces&lt;/p&gt;
 &lt;pre&gt;
   auto lo
   iface lo inet loopback
@@ -655,57 +754,65 @@ sudo convirt-tool setup
     netmask 255.255.255.0
     gateway 192.168.1.1
 &lt;/pre&gt;
+
 &lt;p&gt;网络配置完成后，重启服务：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-sudo /etc/init.d/networking restart
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='ssh'&gt;配置ssh&lt;/h3&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo /etc/init.d/networking restart&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_ssh'&gt;配置ssh&lt;/h3&gt;
 &lt;p&gt;由于ConVirt使用VNC来连接虚拟机，且使用root用户，因此需要配置本机使其使用root用户连接本机ssh服务时，不需要输入口令。配置方法如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-sudo cp /var/lib/convirt/identity/cms_id_rsa /root/.ssh/id_rsa
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;sudo cp /var/lib/convirt/identity/cms_id_rsa /root/.ssh/id_rsa
 sudo cp /var/lib/convirt/identity/cms_id_rsa.pub
-/root/.ssh/authorized_keys
-&lt;/code&gt;&lt;/p&gt;
-
+/root/.ssh/authorized_keys&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;尝试用root用户连接本机ssh服务：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-ssh root@192.168.1.240
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;ssh root@192.168.1.240&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;如果不需要口令验证，则说明已经配置成功，否则使用如下命令查看失败原因：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;:::bash
-ssh root@192.168.1.240 -v
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id='convirt2'&gt;访问ConVirt2管理系统&lt;/h3&gt;
-
-&lt;p&gt;打开浏览器，访问http://192.168.1.240:8081，即可看到ConVirt2管理系统登录界面，默认的用户名：admin，密码：admin。&lt;/p&gt;</content>
+&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;ssh root@192.168.1.240 -v&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_convirt2'&gt;访问ConVirt2管理系统&lt;/h3&gt;
+&lt;p&gt;打开浏览器，访问http://192.168.1.240:8081，即可看到ConVirt2管理系统登录界面，默认的用户名：admin，密码：admin。&lt;/p&gt;
+</content>
   </entry>
   <entry>
     <title>自定义Sencha Touch中的icons</title>
-    <link rel="alternate" href="/blog/2011/04/29/customize-icons-in-sencha-touch.html"/>
-    <id>/blog/2011/04/29/customize-icons-in-sencha-touch.html</id>
+    <link rel="alternate" href="/blog/2011/04/29/customize-icons-in-sencha-touch/"/>
+    <id>/blog/2011/04/29/customize-icons-in-sencha-touch/</id>
     <published>2011-04-29T00:00:00Z</published>
     <updated>2011-04-29T00:00:00Z</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <summary type="html">&lt;p&gt;在前面一篇文章里面介绍了如何搭建Sencha Touch项目Compass的开发环境。这篇文章将以自定义Sencha Touch中icons为例子，进一步的介绍如何使用Compass来进行css的开发。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;在前面一篇文章里面介绍了如何搭建Sencha
+Touch项目Compass的开发环境。这篇文章将以自定义Sencha
+Touch中icons为例子，进一步的介绍如何使用Compass来进行css的开发。&lt;/p&gt;
 
 &lt;p&gt;</summary>
-    <content type="html">&lt;p&gt;在前面一篇文章里面介绍了如何搭建Sencha Touch项目Compass的开发环境。这篇文章将以自定义Sencha Touch中icons为例子，进一步的介绍如何使用Compass来进行css的开发。&lt;/p&gt;
+    <content type="html">&lt;p&gt;在前面一篇文章里面介绍了如何搭建Sencha
+Touch项目Compass的开发环境。这篇文章将以自定义Sencha
+Touch中icons为例子，进一步的介绍如何使用Compass来进行css的开发。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
+&lt;h3 id='toc_sencha-touch-compass'&gt;加载Sencha Touch的Compass框架&lt;/h3&gt;
+&lt;p&gt;要自定义Sencha Touch默认的CSS代码，首先需要导入Sencha
+Touch的Compass框架，打开resources/config.rb文件，添加如下内容。&lt;/p&gt;
 
-&lt;h3 id='sencha_touchcompass'&gt;加载Sencha Touch的Compass框架&lt;/h3&gt;
-
-&lt;p&gt;要自定义Sencha Touch默认的CSS代码，首先需要导入Sencha Touch的Compass框架，打开resources/config.rb文件，添加如下内容。&lt;/p&gt;
 &lt;pre&gt;
   # 指定Sencha Touch目录
   SENCHA_TOUCH_PATH = '/path/to/sencha-touch'
@@ -713,9 +820,9 @@ ssh root@192.168.1.240 -v
   # 加载Sencha Touch
   load File.join(SENCHA_TOUCH_PATH, 'resources', 'themes')
 &lt;/pre&gt;
-&lt;h3 id='scss'&gt;建立自定义的scss文件&lt;/h3&gt;
-
+&lt;h3 id='toc_scss'&gt;建立自定义的scss文件&lt;/h3&gt;
 &lt;p&gt;在目录resources/sass目录下新建一个sencha-touch.scss的文件，文件内容如下：&lt;/p&gt;
+
 &lt;pre&gt;
 // 1. 修改Sencha Touch配置参数
 // 不加载默认的icons
@@ -743,12 +850,96 @@ $include-default-icons: false;
 @include pictos-iconmask('maps');
 @include pictos-iconmask('docs2');
 &lt;/pre&gt;
-&lt;h3 id='id26'&gt;编译&lt;/h3&gt;
+&lt;h3 id='toc_'&gt;编译&lt;/h3&gt;&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;compass compile resources&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;新的Sencha Touch样式文件生成在resources/stylesheets目录中&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>搭建Sencha Touch开发环境 - css</title>
+    <link rel="alternate" href="/blog/2011/04/26/setup-sencha-touch-dev-env-css/"/>
+    <id>/blog/2011/04/26/setup-sencha-touch-dev-env-css/</id>
+    <published>2011-04-26T00:00:00Z</published>
+    <updated>2011-04-26T00:00:00Z</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;p&gt;在上一篇文章搭建Sencha Touch开发环境中，构建了一个Sencha
+Touch项目的基本目录结构，接下来将介绍如何在一个Sench
+Touch项目中使用Compass来开发css。&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;:::bash
-compass compile resources
-&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;</summary>
+    <content type="html">&lt;p&gt;在上一篇文章搭建Sencha Touch开发环境中，构建了一个Sencha
+Touch项目的基本目录结构，接下来将介绍如何在一个Sench
+Touch项目中使用Compass来开发css。&lt;/p&gt;
 
-&lt;p&gt;新的Sencha Touch样式文件生成在resources/stylesheets目录中&lt;/p&gt;</content>
+&lt;p&gt;&lt;/p&gt;
+&lt;h3 id='toc_compass'&gt;安装compass&lt;/h3&gt;&lt;div class="highlight "&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;  # 详细的安装方法请参看
+  # http://compass-style.org/install/
+  gem install compass&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_compass'&gt;创建Compass目录结构&lt;/h3&gt;&lt;div class="highlight bash"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;compass create /path/to/project/public/resources/&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_compass'&gt;配置Compass&lt;/h3&gt;
+&lt;p&gt;默认的Compass配置文件为/path/to/project/public/resources/config.rb，打开该文件，并修改其配置如下：&lt;/p&gt;
+
+&lt;pre&gt;
+  # sass目录
+  sass_dir = "sass"
+
+  # css目录
+  css_dir = "stylesheets"
+
+  # 图片目录
+  images_dir = "images"
+
+  # 指定输出格式
+  # 可选值:compressed, :nested, :expanded, :compact
+  output_style = :compressed
+
+  # 环境
+  environment = :production
+&lt;/pre&gt;
+&lt;h3 id='toc_scss'&gt;编写scss&lt;/h3&gt;
+&lt;p&gt;打开/path/to/project/public/resources/sass/application.scss文件，并在其中编写该项目要使用的scss。例如：&lt;/p&gt;
+
+&lt;pre&gt;
+$base-color: red;
+
+.x-toolbar {
+  color: $base-color;
+}
+&lt;/pre&gt;
+&lt;h3 id='toc_'&gt;编译&lt;/h3&gt;&lt;div class="highlight "&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;compass compile /path/to/project/public/resources&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;编译后输出的css文件存放在/path/to/project/public/resources/stylesheets/，现在打开该目录中的application.css，其生成的代码如下：&lt;/p&gt;
+&lt;div class="highlight css"&gt;&lt;div class="ribbon"&gt;&lt;/div&gt;&lt;table class="CodeRay"&gt;&lt;tr&gt;
+  &lt;td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"&gt;&lt;pre&gt;
+&lt;/pre&gt;&lt;/td&gt;
+  &lt;td class="code"&gt;&lt;pre&gt;&lt;span class="class"&gt;.x-toolbar&lt;/span&gt;{&lt;span class="key"&gt;color&lt;/span&gt;:&lt;span class="value"&gt;red&lt;/span&gt;}&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;h3 id='toc_'&gt;参考资料：&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://compass-style.org/help/tutorials/configuration-reference/"&gt;Compass Configuration Reference&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.slideshare.net/senchainc/structuring-your-sencha-touch-application"&gt;Structuring Your Sencha Touch Application&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.sencha.com/blog/an-introduction-to-theming-sencha-touch"&gt;An Introduction to Theming Sencha Touch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
   </entry>
 </feed>
