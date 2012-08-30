@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+  </head>
+  <body>
+    
+    <div id="main" role="main">
+      <p><em>前篇：</em></p>
+
+<ul>
+<li><a href='http://hetao.im/2011/04/24/setup-sencha-touch-dev-env'>搭建SENCHA TOUCH开发环境</a></li>
+
+<li><a href='http://hetao.im/2011/04/26/setup-sencha-touch-dev-env-css'>搭建SENCHA TOUCH开发环境 – CSS</a></li>
+</ul>
+
+<p>在前面两篇文章中介绍了如何手动的构建一个Sencha Touch开发环境，本文将着重介绍如何使用工具搭建一个测试驱动的Sencha Touch项目。</p>
+
+<p></p>
+
+<h3 id='sencha_touch'>Sencha Touch辅助工具</h3>
+
+<p>在Sencha Touch中有一个鲜为人知的工具Sencha Command，位于sencha-touch-1.1.0/jsbuilder目录中，名为sencha.sh。相关资料表明该工具是用来自动化生成Sencha Touch项目目录结构，并包含一个代码生成器。使用了一下发现其明显处于试验阶段，因为代码中存在非常多的错误。通过sencha.sh生成的代码无法正常运行。不过不用担心，我们可以使用后面介绍的<a href='https://github.com/towerhe/sencha-command'>sencha-command</a>来完成这些操作。下面简单的介绍sencha.sh的几个用法：</p>
+
+<ul>
+<li>
+<p><em>生成Sencha Touch项目</em></p>
+
+<p><code>:::bash
+  ./sencha.sh generate app YourSenchaTouchApp /path/to/save/YourSenchaTouchApp
+</code></p>
+</li>
+</ul>
+
+<p><em>参数解释：</em></p>
+
+<p><em>generate</em> - 指定使用generator模块，该模块负责代码的自动生成；</p>
+
+<p><em>app</em> - 指定将要生成的是Sencha Touch项目；</p>
+
+<p><em>YourSenchaTouchApp</em> - 指定待生成的Sencha Touch项目名称，该名称将作为Ext.Application的名称，因此命名必须是一个合法的javascript的一个合法标识符；</p>
+
+<p><em>/path/to/save/YourSenchaTouchApp</em> - 指定待生成的项目将被保存在何处。</p>
+
+<ul>
+<li>
+<p><em>生成Sencha Touch Model</em></p>
+
+<p>本命令需要在生成的Sencha Touch目录中执行，该命令会在Sencha Touch项目中生成三个文件并修改两个文件。但是很遗憾，目前版本不经过修改将无法正常执行。</p>
+</li>
+</ul>
+
+<p><code>
+  ├── app
+  │   ├── models
+  │   │   └── User.js      - 新生成的User模型
+  ├── index.html           - 引入app/models/User.js
+  └── test
+      ├── fixtures
+      │   └── User.js      - 新生成的User模型的fixture
+      └── unit
+          ├── index.html   - 引入models/User.js
+          └─── models
+               └── User.js - 新生成的User模型的spec
+</code></p>
+
+<p><code>:::bash
+  ./sencha.sh generate model User name:string password:string age:int
+</code></p>
+
+<p><em>参数解释：</em> <em>generate</em> - 指定使用generator模块，该模块负责代码的自动生成； <em>model</em> - 指定将要生成的是Sencha Touch模型 <em>User</em> - 指定待生成的模型的名称 <em>name:string password:string age:int</em> - 指定待生成的属性定义，属性定义由两部分组成，&lt;属性名&gt;:&lt;类型&gt;。</p>
+
+<ul>
+<li>
+<p><em>生成Sencha Touch Controller</em></p>
+
+<p>本命令需要在生成的Sencha Touch目录中执行，该命令会在Sencha Touch项目中生成两个文件并修改两个文件。同样很遗憾，目前版本不经过修改将无法正常执行。</p>
+</li>
+</ul>
+
+<p><code>
+  ├── app
+  │   ├── controllers
+  │   │   └── users.js            - 新生成的users控制器
+  ├── index.html                  - 引入app/controllers/users.js
+  └── test
+      └── unit
+          ├── index.html          - 引入controllers/users.js
+          └── controllers
+               └── controllers.js - 新生成的users控制器的spec
+</code></p>
+
+<p><code>:::bash
+  ./sencha.sh generate controller users index new create show update destroy
+</code></p>
+
+<p><em>参数解释：</em> <em>generate</em> - 指定使用generator模块，该模块负责代码的自动生成； <em>controller</em> - 指定将要生成的是Sencha Touch控制器 <em>users</em> - 指定待生成的控制器的名称 <em>index new create show update destroy</em> - 指定待生成的控制器方法。</p>
+
+<h3 id='sencha_command'>Sencha Command</h3>
+
+<p>Sencha Command - 是<a href='https://github.com/muc'>muc</a>&#8220;修正后发布的工具，该工具修正了Sencha Touch自带的工具存在的大部分问题。但是单元测试，以及提示信息依然存在一些小的问题。我在github上fork了这个项目<a href='https://github.com/towerhe/sencha-command'>https://github.com/towerhe/sencha-command</a>，并修正了一些目前发现的问题：</p>
+
+<ul>
+<li>test/unit/index.html中引入的sencha-touch-debug.js目录不正确</li>
+
+<li>test/unit/index.html中默认不引入app.js</li>
+
+<li>调用generator时提示信息错误</li>
+</ul>
+
+<p>Sencha Command与Sencha Touch自带的工具完成相同的工作，但有一些细小的改动：</p>
+
+<p>* 目录结构不同</p>
+
+<ul>
+<li>原脚本sencha.sh改名为sencha</li>
+
+<li>生成的项目中包含了Sencha Touch的资源文件</li>
+
+<li>修复了sencha touch资源引用的错误 * 修复了无法使用模型和控制器生成器的错误</li>
+</ul>
+
+<p><em>如何使用Sencha Command</em></p>
+
+<p><code>
+  # 1. 从github中签出sencha-command
+  #    git clone https://github.com/towerhe/sencha-command.git
+  # 2. 参照前面介绍的Sencha自带工具的用法生成项目、模型、控制器
+  # 3. 将项目部署到Web服务器
+  # 4. 浏览http://{your_server}:{port}/{any_prefix}/index.html来访问项目
+  # 5. 浏览http://{your_server}:{port}/{any_prefix}/test/unit/index.html来访问项目的单元测试
+</code></p>
+    </div>
+    
+    <aside>
+      <h2>Recent Articles</h2>
+      <ol>
+        
+          <li><a href="/blog/2012/02/02/setup-your-rails-dev-env-with-rda.html">Setup your rails development environment with RDA</a> <span>Feb  2</span></li>
+        
+          <li><a href="/blog/2012/01/01/example-article.html">Example Article</a> <span>Jan  1</span></li>
+        
+          <li><a href="/blog/2011/08/06/tdd-sencha-touch-dev.html">测试驱动开发Sencha Touch环境搭建</a> <span>Aug  6</span></li>
+        
+          <li><a href="/blog/2011/07/07/customize-your-ubuntu-cd-by-tklpatch.html">使用tklpatch自定义Ubuntu系统安装盘</a> <span>Jul  7</span></li>
+        
+          <li><a href="/blog/2011/05/06/install-convirt2-in-one-host.html">使用ConVirt2管理KVM虚拟机 - 单一主机篇</a> <span>May  6</span></li>
+        
+          <li><a href="/blog/2011/04/29/customize-icons-in-sencha-touch.html">自定义Sencha Touch中的icons</a> <span>Apr 29</span></li>
+        
+          <li><a href="/blog/2011/04/26/setup-sencha-touch-dev-env-css.html">搭建Sencha Touch开发环境 - css</a> <span>Apr 26</span></li>
+        
+          <li><a href="/blog/2011/04/24/setup-sencha-touch-dev-env.html">搭建Sencha Touch开发环境</a> <span>Apr 24</span></li>
+        
+          <li><a href="/blog/2011/04/04/use-convirt-to-manage-your-kvm-based-machines.html">使用ConVirt管理基于KVM的虚拟机 - 安装篇</a> <span>Apr  4</span></li>
+        
+          <li><a href="/blog/2011/03/13/javascript-tdd.html">采用TDD进行javascript开发</a> <span>Mar 13</span></li>
+        
+      </ol>
+
+      <h2>Tags</h2>
+      <ol>
+        
+          <li><a href="/blog/tags/poem.html">poem (1)</a></li>
+        
+          <li><a href="/blog/tags/example.html">example (1)</a></li>
+        
+          <li><a href="/blog/tags/sencha-touch.html">sencha touch (4)</a></li>
+        
+          <li><a href="/blog/tags/javascript.html">javascript (4)</a></li>
+        
+          <li><a href="/blog/tags/mj.html">mj (1)</a></li>
+        
+          <li><a href="/blog/tags/music.html">music (1)</a></li>
+        
+          <li><a href="/blog/tags/mobile.html">mobile (2)</a></li>
+        
+          <li><a href="/blog/tags/pad.html">pad (2)</a></li>
+        
+          <li><a href="/blog/tags/christain.html">christain (1)</a></li>
+        
+          <li><a href="/blog/tags/sass.html">sass (2)</a></li>
+        
+          <li><a href="/blog/tags/compass.html">compass (2)</a></li>
+        
+          <li><a href="/blog/tags/css.html">css (2)</a></li>
+        
+          <li><a href="/blog/tags/buzz.html">buzz (1)</a></li>
+        
+          <li><a href="/blog/tags/twitter.html">twitter (1)</a></li>
+        
+          <li><a href="/blog/tags/ruby.html">ruby (4)</a></li>
+        
+          <li><a href="/blog/tags/gem.html">gem (1)</a></li>
+        
+          <li><a href="/blog/tags/jeweler.html">jeweler (1)</a></li>
+        
+          <li><a href="/blog/tags/convirt.html">convirt (2)</a></li>
+        
+          <li><a href="/blog/tags/virtual-machine.html">virtual machine (4)</a></li>
+        
+          <li><a href="/blog/tags/cloud.html">cloud (2)</a></li>
+        
+          <li><a href="/blog/tags/linux.html">linux (4)</a></li>
+        
+          <li><a href="/blog/tags/ubuntu.html">ubuntu (4)</a></li>
+        
+          <li><a href="/blog/tags/kvm.html">kvm (2)</a></li>
+        
+          <li><a href="/blog/tags/ai.html">ai (1)</a></li>
+        
+          <li><a href="/blog/tags/rails.html">rails (2)</a></li>
+        
+          <li><a href="/blog/tags/observer.html">observer (1)</a></li>
+        
+          <li><a href="/blog/tags/engine.html">engine (1)</a></li>
+        
+          <li><a href="/blog/tags/cdrom.html">cdrom (1)</a></li>
+        
+          <li><a href="/blog/tags/tklpatch.html">tklpatch (1)</a></li>
+        
+          <li><a href="/blog/tags/qunit.html">qunit (1)</a></li>
+        
+          <li><a href="/blog/tags/thinking.html">thinking (2)</a></li>
+        
+          <li><a href="/blog/tags/life.html">life (2)</a></li>
+        
+          <li><a href="/blog/tags/christian.html">christian (1)</a></li>
+        
+          <li><a href="/blog/tags/vagrant.html">vagrant (1)</a></li>
+        
+          <li><a href="/blog/tags/nginx.html">nginx (1)</a></li>
+        
+          <li><a href="/blog/tags/passenger.html">passenger (1)</a></li>
+        
+          <li><a href="/blog/tags/rvm.html">rvm (1)</a></li>
+        
+      </ol>
+
+      <h2>By Year</h2>
+      <ol>
+        
+          <li><a href="/blog/2012.html">2012 (2)</a></li>
+        
+          <li><a href="/blog/2011.html">2011 (14)</a></li>
+        
+          <li><a href="/blog/2010.html">2010 (9)</a></li>
+        
+      </ol>
+    </aside>
+  </body>
+</html>

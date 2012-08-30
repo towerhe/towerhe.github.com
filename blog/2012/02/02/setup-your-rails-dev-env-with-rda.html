@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+  </head>
+  <body>
+    
+    <div id="main" role="main">
+      <h3 id='intro'>Intro</h3>
+
+<p>I created a project <a href='https://github.com/towerhe/rda'>rda</a> to help us setup our rails dev env more quickly. It is in the early dev stage. By now it only provides two major features:</p>
+
+<ul>
+<li>Create a .rvmrc file for your rails app</li>
+
+<li>Setup Nginx + Passenger for your rails app</li>
+</ul>
+
+<p></p>
+
+<h3 id='requirements'>Requirements</h3>
+
+<p>* <em>RVM</em></p>
+
+<pre><code>RVM is a command-line tool which allows you to easily install,</code></pre>
+
+<p>manage, and work with multiple ruby environments from interpreters to sets of gems.</p>
+
+<pre><code>You should install RVM first. You can follow the installation tips</code></pre>
+
+<p>on <a href='https://rvm.beginrescueend.com/rvm/install/#explained'>https://rvm.beginrescueend.com/rvm/install/#explained</a> or just execute the following instructions:</p>
+
+<p><code>:::bash
+    bash -s stable &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+ </code></p>
+
+<p>* <em>Nginx + Passenger</em></p>
+
+<pre><code>Nginx is an HTTP and reverse proxy server, as well as a</code></pre>
+
+<p>mail proxy server, written by Igor Sysoev. For a long time, it has been running on many heavily loaded Russian sites including Yandex, Mail.Ru, VKontakte, and Rambler. According to Netcraft nginx served or proxied 8.49% busiest sites in January 2012.</p>
+
+<pre><code>Phusion Passenger™ — a.k.a. mod_rails or mod_rack — makes deployment</code></pre>
+
+<p>of Ruby web applications, such as those built on the revolutionary Ruby on Rails web framework, a breeze. It follows the usual Ruby on Rails conventions, such as “Don’t-Repeat-Yourself”.</p>
+
+<pre><code>As simple as posible, you can follow the installation instructions</code></pre>
+
+<p>on <a href='http://www.modrails.com/install.html'>http://www.modrails.com/install.html</a> or:</p>
+
+<pre><code>*Note:* In the process of installing nginx, you will get an error when downloading</code></pre>
+
+<p>pcre. For passenger 3.0.11, it tries to download pcre 8.12 which is removed when installing nginx. To fix this error, you should modify phusion_passenger.rb of the installed passenger gem directory and set the version of pcre to 8.21.</p>
+
+<p><code>:::bash
+    # 1. Install passenger
+    gem install passenger
+    # 2. Install nginx
+    passenger-install-nginx-module
+ </code></p>
+
+<h3 id='install_rda'>Install RDA</h3>
+
+<p><code>:::bash
+  gem install rda
+</code></p>
+
+<p>Or simply add rda to the Gemfile</p>
+
+<p><code>:::ruby
+  gem &#39;rda&#39;
+</code></p>
+
+<h3 id='setup_rvm'>Setup RVM</h3>
+
+<p><code>:::bash
+  rake rda:rvm:setup
+</code></p>
+
+<p>First of all, this task will check whether the RVM is installed. If RVM is installed, it will create a .rvmrc for the application with the content which looks like:</p>
+
+<p><code>:::bash
+  if [[ -s &quot;/path/to/rvm/environments/ruby-1.9.3-p0@app_name&quot; ]]; then
+    . &quot;/path/to/rvm/environments/ruby-1.9.3-p0@app_name&quot;
+  else
+    rvm use ruby-1.9.3-p0@app_name --create
+  fi
+</code></p>
+
+<p>After RVM setup, you need to trust the rvmrc by:</p>
+
+<p><code>:::bash
+  rvm rvmrc trust
+</code></p>
+
+<p>Or you can set rvm_trust_rvmrcs_flag=1 in ~/.rvmrc or /etc/rvmrc.</p>
+
+<p>If RVM is not installed this task will do nothing but exit.</p>
+
+<h3 id='setup_nginx__passenger'>Setup Nginx + Passenger</h3>
+
+<p><code>:::bash
+  rake rda:nginx:setup
+</code></p>
+
+<p>First this task will try to find the config files of Nginx which you have installed from the following paths:</p>
+
+<ul>
+<li>/etc/nginx</li>
+
+<li>/usr/local/nginx/conf</li>
+
+<li>/opt/nginx/conf</li>
+</ul>
+
+<p>You can change the default searching paths by:</p>
+
+<p><code>:::ruby
+  Rda.configure { nginx_conf_paths [&#39;/path/to/nginx/conf&#39;] }
+</code></p>
+
+<p>Please make sure that you have the write permission of the directory you choosed, or you can run:</p>
+
+<p><code>:::bash
+  sudo rake rda:nginx:setup
+</code></p>
+
+<p>If there are more than one paths found, it will give you a choice to decide which one will be used. After choosing a proper path, it will try to create two directories sites-available and sites-enabled to save the configs of rails applications.</p>
+
+<ul>
+<li>sites-available saves the configs of the rails applications.</li>
+
+<li>sites-enabled saves the link to the rails applications.</li>
+</ul>
+
+<p>Next it will set Nginx to include the configs under sites-enabled. It means that only the applications under sites-enabled will be loaded. And than it will create a config file for your application under sites-available and create a link to the config file under sites-enabled. After all, it will create a local hostname for your application in /etc/hosts.</p>
+
+<p>Now You need to start Nginx:</p>
+
+<p><code>:::bash
+  /path/to/nginx/sbin/nginx
+</code></p>
+
+<p>and then visit http://your_app_name.local.</p>
+    </div>
+    
+    <aside>
+      <h2>Recent Articles</h2>
+      <ol>
+        
+          <li><a href="/blog/2012/02/02/setup-your-rails-dev-env-with-rda.html">Setup your rails development environment with RDA</a> <span>Feb  2</span></li>
+        
+          <li><a href="/blog/2012/01/01/example-article.html">Example Article</a> <span>Jan  1</span></li>
+        
+          <li><a href="/blog/2011/08/06/tdd-sencha-touch-dev.html">测试驱动开发Sencha Touch环境搭建</a> <span>Aug  6</span></li>
+        
+          <li><a href="/blog/2011/07/07/customize-your-ubuntu-cd-by-tklpatch.html">使用tklpatch自定义Ubuntu系统安装盘</a> <span>Jul  7</span></li>
+        
+          <li><a href="/blog/2011/05/06/install-convirt2-in-one-host.html">使用ConVirt2管理KVM虚拟机 - 单一主机篇</a> <span>May  6</span></li>
+        
+          <li><a href="/blog/2011/04/29/customize-icons-in-sencha-touch.html">自定义Sencha Touch中的icons</a> <span>Apr 29</span></li>
+        
+          <li><a href="/blog/2011/04/26/setup-sencha-touch-dev-env-css.html">搭建Sencha Touch开发环境 - css</a> <span>Apr 26</span></li>
+        
+          <li><a href="/blog/2011/04/24/setup-sencha-touch-dev-env.html">搭建Sencha Touch开发环境</a> <span>Apr 24</span></li>
+        
+          <li><a href="/blog/2011/04/04/use-convirt-to-manage-your-kvm-based-machines.html">使用ConVirt管理基于KVM的虚拟机 - 安装篇</a> <span>Apr  4</span></li>
+        
+          <li><a href="/blog/2011/03/13/javascript-tdd.html">采用TDD进行javascript开发</a> <span>Mar 13</span></li>
+        
+      </ol>
+
+      <h2>Tags</h2>
+      <ol>
+        
+          <li><a href="/blog/tags/poem.html">poem (1)</a></li>
+        
+          <li><a href="/blog/tags/example.html">example (1)</a></li>
+        
+          <li><a href="/blog/tags/sencha-touch.html">sencha touch (4)</a></li>
+        
+          <li><a href="/blog/tags/javascript.html">javascript (4)</a></li>
+        
+          <li><a href="/blog/tags/mj.html">mj (1)</a></li>
+        
+          <li><a href="/blog/tags/music.html">music (1)</a></li>
+        
+          <li><a href="/blog/tags/mobile.html">mobile (2)</a></li>
+        
+          <li><a href="/blog/tags/pad.html">pad (2)</a></li>
+        
+          <li><a href="/blog/tags/christain.html">christain (1)</a></li>
+        
+          <li><a href="/blog/tags/sass.html">sass (2)</a></li>
+        
+          <li><a href="/blog/tags/compass.html">compass (2)</a></li>
+        
+          <li><a href="/blog/tags/css.html">css (2)</a></li>
+        
+          <li><a href="/blog/tags/buzz.html">buzz (1)</a></li>
+        
+          <li><a href="/blog/tags/twitter.html">twitter (1)</a></li>
+        
+          <li><a href="/blog/tags/ruby.html">ruby (4)</a></li>
+        
+          <li><a href="/blog/tags/gem.html">gem (1)</a></li>
+        
+          <li><a href="/blog/tags/jeweler.html">jeweler (1)</a></li>
+        
+          <li><a href="/blog/tags/convirt.html">convirt (2)</a></li>
+        
+          <li><a href="/blog/tags/virtual-machine.html">virtual machine (4)</a></li>
+        
+          <li><a href="/blog/tags/cloud.html">cloud (2)</a></li>
+        
+          <li><a href="/blog/tags/linux.html">linux (4)</a></li>
+        
+          <li><a href="/blog/tags/ubuntu.html">ubuntu (4)</a></li>
+        
+          <li><a href="/blog/tags/kvm.html">kvm (2)</a></li>
+        
+          <li><a href="/blog/tags/ai.html">ai (1)</a></li>
+        
+          <li><a href="/blog/tags/rails.html">rails (2)</a></li>
+        
+          <li><a href="/blog/tags/observer.html">observer (1)</a></li>
+        
+          <li><a href="/blog/tags/engine.html">engine (1)</a></li>
+        
+          <li><a href="/blog/tags/cdrom.html">cdrom (1)</a></li>
+        
+          <li><a href="/blog/tags/tklpatch.html">tklpatch (1)</a></li>
+        
+          <li><a href="/blog/tags/qunit.html">qunit (1)</a></li>
+        
+          <li><a href="/blog/tags/thinking.html">thinking (2)</a></li>
+        
+          <li><a href="/blog/tags/life.html">life (2)</a></li>
+        
+          <li><a href="/blog/tags/christian.html">christian (1)</a></li>
+        
+          <li><a href="/blog/tags/vagrant.html">vagrant (1)</a></li>
+        
+          <li><a href="/blog/tags/nginx.html">nginx (1)</a></li>
+        
+          <li><a href="/blog/tags/passenger.html">passenger (1)</a></li>
+        
+          <li><a href="/blog/tags/rvm.html">rvm (1)</a></li>
+        
+      </ol>
+
+      <h2>By Year</h2>
+      <ol>
+        
+          <li><a href="/blog/2012.html">2012 (2)</a></li>
+        
+          <li><a href="/blog/2011.html">2011 (14)</a></li>
+        
+          <li><a href="/blog/2010.html">2010 (9)</a></li>
+        
+      </ol>
+    </aside>
+  </body>
+</html>

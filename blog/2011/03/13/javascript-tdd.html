@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+  </head>
+  <body>
+    
+    <div id="main" role="main">
+      <p>昨天与同事实现一个简单的地图定位功能，功能虽然简单，可是过程却是痛苦的，且程度是极度的。痛苦的主要原因源自于调试前端界面，也就是javascript部分。多年前也曾经写过许多javascript程序，那段历史可以追溯到ajax还未出现之前。以前写的时候因为自身、环境等各种原因，从来没有考虑过写javascript的单元测试。</p>
+
+<p></p>
+
+<p>经过昨天，深刻地体会了一次如果没有对javascript做单元测试，调试的过程是多么的痛苦。由于时间问题，今天粗略的google了一下javascript单元测试库，发现主要有： <ul>
+<li>JSUnit - http://www.jsunit.net/</li>
+<li>jspec - http://jspec.info/</li>
+<li>jasmine - http://pivotal.github.com/jasmine/</li>
+<li>QUnit - http://docs.jquery.com/Qunit</li>
+<li>jsspec - http://code.google.com/p/jsspec/</li>
+</ul> 在选择的时候原本准备选用jasmine，主要原因有三个： <ol>
+<li>jasmine（茉莉花）本人最喜欢的花；</li>
+<li>jasmine的语法非常优美，非常适合BDD；</li>
+<li>jasmine可以与rails集成。</li>
+</ol> 但是最后由于使用rails g jasmine:install时出错而打住了。最后选择了QUnit，因为他是jQuery提供的，jQuery有是那么的流行，定位地图很多也是基于jQuery写的，另外，有一个叫做<a href='https://github.com/appendto/jquery-mockjax'>mockjax</a>的扩展，可以方便的模拟ajax请求。</p>
+
+<p>下面用一个简单的例子记录今日的学习过程，并展示用QUnit如何进行TDD。 <h3>需求定义</h3> 提供一个消息窗体函数，该函数可以将一个div渲染成一个消息窗口。函数需要知道将渲染的div是哪个；需要知道用什么内容去渲染该消息窗体。 <h3>TDD过程</h3> <li>
+<strong>实现如果没有找到div就什么都不干，返回false。</strong>
+<p>
+测试：
+<pre class='brush:javascript'>
+module("notice-win");
+test("检测是否有指定的div", function() {
+  expect(1);
+  var result = showNoticeWindow("#not_exists");
+  ok(!result, "不存在时返回false");
+});
+</pre>
+实现：
+<pre class='brush:javascript'>
+function showNoticeWindow(div) {
+  if($(div)) {
+    // 渲染消息窗体
+  } else {
+    return false;
+  }
+}
+</pre>
+</p>
+运行：
+<iframe src='http://jsfiddle.net/towerhe/yCkfW/17/embedded/' style='width: 100%; height: 300px' />
+</li> <pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
+&lt;li&gt;
+&lt;strong&gt;可以设置窗体标题&lt;/strong&gt;
+&lt;p&gt;
+测试：
+&lt;pre class=&quot;brush:javascript&quot;&gt;
+module(&quot;通知窗体&quot;);</pre></p>
+
+<p>test(&#8220;检测是否有指定的div&#8221;, function() { expect(1); var result = showNoticeWindow(&#8220;#not_exists&#8221;, {}); ok(!result, &#8220;不存在时返回false&#8221;); });</p>
+
+<p>test(&#8220;在通知窗体中显示标题&#8221;, function() { expect(1); showNoticeWindow(&#8220;#notice-window&#8221;, { title: &#8220;我是标题&#8221; }); equal($(&#8220;#notice-window &gt; h1.title&#8221;).html(), &#8220;我是标题&#8221;, &#8220;设置标题&#8221;); }); &lt;/pre&gt; 实现： <pre class='brush:javascript'>
+function showNoticeWindow(div, options) {
+    if ($(div)) {
+        $.each($(div).children, function(idx, elmt) {
+            elmt.remove();
+        });
+        if (options.title) {
+            $(div).append('<h1 class='title'>' + options.title +
+'</h1>');
+        }
+    } else {
+        return false;
+    }
+}
+</pre> &lt;/p&gt; 运行： <iframe src='http://jsfiddle.net/towerhe/yCkfW/29/embedded/' style='width: 100%; height: 300px' /> &lt;/li&gt; <pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
+&lt;li&gt;
+&lt;strong&gt;完整的实现&lt;/strong&gt;
+&lt;p&gt;
+测试：
+&lt;pre class=&quot;brush:javascript&quot;&gt;
+module(&quot;通知窗体&quot;);</pre></p>
+
+<p>test(&#8220;检测是否有指定的div&#8221;, function() { expect(1); var result = showNoticeWindow(&#8220;#not_exists&#8221;, {}); ok(!result, &#8220;不存在时返回false&#8221;); });</p>
+
+<p>test(&#8220;在通知窗体中显示标题&#8221;, function() { expect(1); showNoticeWindow(&#8220;#notice-window&#8221;, { title: &#8220;我是标题&#8221; }); equal($(&#8220;#notice-window &gt; h1.title&#8221;).html(), &#8220;我是标题&#8221;, &#8220;设置标题&#8221;); });</p>
+
+<p>test(&#8220;在通知窗体中显示消息&#8221;, function() { expect(1); showNoticeWindow(&#8220;#notice-window&#8221;, { msg: &#8220;我是消息&#8221; }); equal($(&#8220;#notice-window &gt; p.msg&#8221;).html(), &#8220;我是消息&#8221;, &#8220;设置消息&#8221;); });</p>
+
+<p>test(&#8220;如果没有detail，则不添加detail元素&#8221;, function() { expect(1); showNoticeWindow(&#8220;#notice-window&#8221;, {}); ok($(&#8220;#notice-window &gt; p.detail)&#8221;).html() == null, &#8220;没有detail元素&#8221;); });</p>
+
+<p>test(&#8220;在通知窗体中显示详细信息&#8221;, function() { expect(1); showNoticeWindow(&#8220;#notice-window&#8221;, { detail: &#8220;我是详细信息&#8221; }); equal($(&#8220;#notice-window &gt; p.detail&#8221;).html(), &#8220;我是详细信息&#8221;, &#8220;设置详细信息&#8221;); });</p>
+
+<p>test(&#8220;如果没有操作，则不添加actions元素&#8221;, function() { expect(1); showNoticeWindow(&#8220;#notice-window&#8221;, {}); ok($(&#8220;#notice-window &gt; div.actions&#8221;).html() == null, &#8220;没有actions元素&#8221;); });</p>
+
+<p>test(&#8220;在通知窗体中显示操作&#8221;, function() { expect(3); showNoticeWindow(&#8220;#notice-window&#8221;, { actions: <span>{ href: &#8220;http://www.1.com&#8221;, text: &#8220;www.1.com&#8221;}</span> }); node = &#8220;#notice-window &gt; div.actions&#8221;; equal(1, $(node + &#8221; a&#8221;).size(), &#8220;添加的操作数量&#8221;); equal(&#8220;http://www.1.com&#8221;, $(node + &#8221; a&#8221;).attr(&#8220;href&#8221;), &#8220;验证操作的链接是否正确&#8221;); equal(&#8220;www.1.com&#8221;, $(node + &#8221; a&#8221;).html(), &#8220;验证操作的文字是否正确&#8221;); }); &lt;/pre&gt; 实现： <pre class='brush:javascript'>
+function showNoticeWindow(div, options) {
+    if ($(div)) {
+        $.each($(div).children, function(idx, elmt) {
+            elmt.remove();
+        });
+        if (options.title) {
+            $(div).append('<h1 class='title'>' + options.title +
+'</h1>');
+        }
+        if (options.msg) {
+            $(div).append('<p class='msg'>' + options.msg + '</p>');
+        }
+        if (options.detail) {
+            $(div).append('<p class='detail'>' + options.detail +
+'</p>');
+        }
+        if (options.actions) {
+            $(div).append('<div class='actions' />');
+            $.each(options.actions, function(idx, elmt) {
+                $(div + ">div.actions").append('<a href='&apos; + elmt.href +
+&apos;'>' + elmt.text + '</a>');
+            });
+        }
+    } else {
+        return false;
+    }
+}
+</pre> &lt;/p&gt; 运行： <iframe src='http://jsfiddle.net/towerhe/yCkfW/30/embedded/' style='width: 100%; height: 300px' /> &lt;/li&gt;</p>
+    </div>
+    
+    <aside>
+      <h2>Recent Articles</h2>
+      <ol>
+        
+          <li><a href="/blog/2012/02/02/setup-your-rails-dev-env-with-rda.html">Setup your rails development environment with RDA</a> <span>Feb  2</span></li>
+        
+          <li><a href="/blog/2012/01/01/example-article.html">Example Article</a> <span>Jan  1</span></li>
+        
+          <li><a href="/blog/2011/08/06/tdd-sencha-touch-dev.html">测试驱动开发Sencha Touch环境搭建</a> <span>Aug  6</span></li>
+        
+          <li><a href="/blog/2011/07/07/customize-your-ubuntu-cd-by-tklpatch.html">使用tklpatch自定义Ubuntu系统安装盘</a> <span>Jul  7</span></li>
+        
+          <li><a href="/blog/2011/05/06/install-convirt2-in-one-host.html">使用ConVirt2管理KVM虚拟机 - 单一主机篇</a> <span>May  6</span></li>
+        
+          <li><a href="/blog/2011/04/29/customize-icons-in-sencha-touch.html">自定义Sencha Touch中的icons</a> <span>Apr 29</span></li>
+        
+          <li><a href="/blog/2011/04/26/setup-sencha-touch-dev-env-css.html">搭建Sencha Touch开发环境 - css</a> <span>Apr 26</span></li>
+        
+          <li><a href="/blog/2011/04/24/setup-sencha-touch-dev-env.html">搭建Sencha Touch开发环境</a> <span>Apr 24</span></li>
+        
+          <li><a href="/blog/2011/04/04/use-convirt-to-manage-your-kvm-based-machines.html">使用ConVirt管理基于KVM的虚拟机 - 安装篇</a> <span>Apr  4</span></li>
+        
+          <li><a href="/blog/2011/03/13/javascript-tdd.html">采用TDD进行javascript开发</a> <span>Mar 13</span></li>
+        
+      </ol>
+
+      <h2>Tags</h2>
+      <ol>
+        
+          <li><a href="/blog/tags/poem.html">poem (1)</a></li>
+        
+          <li><a href="/blog/tags/example.html">example (1)</a></li>
+        
+          <li><a href="/blog/tags/sencha-touch.html">sencha touch (4)</a></li>
+        
+          <li><a href="/blog/tags/javascript.html">javascript (4)</a></li>
+        
+          <li><a href="/blog/tags/mj.html">mj (1)</a></li>
+        
+          <li><a href="/blog/tags/music.html">music (1)</a></li>
+        
+          <li><a href="/blog/tags/mobile.html">mobile (2)</a></li>
+        
+          <li><a href="/blog/tags/pad.html">pad (2)</a></li>
+        
+          <li><a href="/blog/tags/christain.html">christain (1)</a></li>
+        
+          <li><a href="/blog/tags/sass.html">sass (2)</a></li>
+        
+          <li><a href="/blog/tags/compass.html">compass (2)</a></li>
+        
+          <li><a href="/blog/tags/css.html">css (2)</a></li>
+        
+          <li><a href="/blog/tags/buzz.html">buzz (1)</a></li>
+        
+          <li><a href="/blog/tags/twitter.html">twitter (1)</a></li>
+        
+          <li><a href="/blog/tags/ruby.html">ruby (4)</a></li>
+        
+          <li><a href="/blog/tags/gem.html">gem (1)</a></li>
+        
+          <li><a href="/blog/tags/jeweler.html">jeweler (1)</a></li>
+        
+          <li><a href="/blog/tags/convirt.html">convirt (2)</a></li>
+        
+          <li><a href="/blog/tags/virtual-machine.html">virtual machine (4)</a></li>
+        
+          <li><a href="/blog/tags/cloud.html">cloud (2)</a></li>
+        
+          <li><a href="/blog/tags/linux.html">linux (4)</a></li>
+        
+          <li><a href="/blog/tags/ubuntu.html">ubuntu (4)</a></li>
+        
+          <li><a href="/blog/tags/kvm.html">kvm (2)</a></li>
+        
+          <li><a href="/blog/tags/ai.html">ai (1)</a></li>
+        
+          <li><a href="/blog/tags/rails.html">rails (2)</a></li>
+        
+          <li><a href="/blog/tags/observer.html">observer (1)</a></li>
+        
+          <li><a href="/blog/tags/engine.html">engine (1)</a></li>
+        
+          <li><a href="/blog/tags/cdrom.html">cdrom (1)</a></li>
+        
+          <li><a href="/blog/tags/tklpatch.html">tklpatch (1)</a></li>
+        
+          <li><a href="/blog/tags/qunit.html">qunit (1)</a></li>
+        
+          <li><a href="/blog/tags/thinking.html">thinking (2)</a></li>
+        
+          <li><a href="/blog/tags/life.html">life (2)</a></li>
+        
+          <li><a href="/blog/tags/christian.html">christian (1)</a></li>
+        
+          <li><a href="/blog/tags/vagrant.html">vagrant (1)</a></li>
+        
+          <li><a href="/blog/tags/nginx.html">nginx (1)</a></li>
+        
+          <li><a href="/blog/tags/passenger.html">passenger (1)</a></li>
+        
+          <li><a href="/blog/tags/rvm.html">rvm (1)</a></li>
+        
+      </ol>
+
+      <h2>By Year</h2>
+      <ol>
+        
+          <li><a href="/blog/2012.html">2012 (2)</a></li>
+        
+          <li><a href="/blog/2011.html">2011 (14)</a></li>
+        
+          <li><a href="/blog/2010.html">2010 (9)</a></li>
+        
+      </ol>
+    </aside>
+  </body>
+</html>
